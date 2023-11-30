@@ -15,7 +15,17 @@ namespace UserManagement.Infrastructure
         { 
         
         }
-        public DbSet<User> Events { get; set; }
-        public DbSet<UserProfile> Categories { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<UserProfile> UserProfile { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasOne(a => a.UserProfile)
+                .WithOne(b => b.User)
+                .HasForeignKey<UserProfile>(b => b.UserId).OnDelete(DeleteBehavior.Cascade); 
+
+        }
+
     }
 }

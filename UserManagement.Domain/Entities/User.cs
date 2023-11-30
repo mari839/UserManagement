@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace UserManagement.Domain.Entities
 {
-    public class User
+    public class User 
     {
-        public int Id { get; set; }
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
-        public string? Email { get; set; }
-        public string? IsActive { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public bool IsActive { get; set; } = true;
         public virtual UserProfile UserProfile { get; set; }
     }
 }
