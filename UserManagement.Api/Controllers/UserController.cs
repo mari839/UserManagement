@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Features.Users.Commands.CreateUser;
 using UserManagement.Application.Features.Users.Queries.GetUser;
+using UserManagement.Application.Features.Users.Queries.GetUserList;
 using UserManagement.Domain.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,8 +19,8 @@ namespace UserManagement.Api.Controllers
             _mediator = mediator;
         }
         // GET: api/<UserController>
-        [HttpGet]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetUserDto>> GetUser(int id)
         {
             var getUserQuery = new GetUserQuery() { id = id };
             
@@ -35,10 +36,11 @@ namespace UserManagement.Api.Controllers
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public async Task<ActionResult<List<GetUserListDto>>> GetUserList()
         {
-            return "value";
+            var userList = await _mediator.Send(new GetUserListQuery());
+            return userList;
         }
 
         // POST api/<UserController>

@@ -5,26 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Application.Contracts;
-using UserManagement.Application.Features.Users.Queries.GetUserList;
+using UserManagement.Application.Features.Users.Commands.CreateUser;
 using UserManagement.Domain.Entities;
 
-namespace UserManagement.Application.Features.Users.Commands.CreateUser
+namespace UserManagement.Application.Features.Users.Commands.UpdateUser
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserDto>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserDto>
     {
         private readonly IUserRepository _userRepository;
-        public CreateUserHandler(IUserRepository userRepository)
+        public UpdateUserHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-        public async Task<CreateUserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateUserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            CreateUserDto userToReturn = new CreateUserDto()
+            UpdateUserDto userToReturn = new UpdateUserDto()
             {
                 UserName = request.UserName,
                 Password = request.Password,
                 Email = request.Email,
-                UserProfileDto = new CreateUserProfileDto()
+                UserProfileDto = new UpdateUserProfileDto()
                 {
                     FirstName = request.FirstName,
                     LastName = request.LastName,
@@ -42,7 +42,7 @@ namespace UserManagement.Application.Features.Users.Commands.CreateUser
             user.UserProfile.LastName = request.LastName;
             user.UserProfile.PersonalNumber = request.PersonalNumber;
 
-            await _userRepository.AddUserAsync(user);
+            await _userRepository.UpdateUserProfileAsync(user);
             return userToReturn;
         }
     }

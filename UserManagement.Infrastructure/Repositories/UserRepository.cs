@@ -23,6 +23,11 @@ namespace UserManagement.Infrastructure.Repositories
             var user = await _userDbContext.User.Where(x => x.UserId == id).FirstOrDefaultAsync();
             return user;
         }
+        public async Task<User> GetUserByIdIncludeUserProfile(int id)
+        {
+            var user = await _userDbContext.User.Include(p => p.UserProfile).OrderBy(u => u.UserId).FirstOrDefaultAsync();
+            return user;
+        }
 
         public async Task<List<User>> GetAllUsers()
         {
@@ -44,19 +49,28 @@ namespace UserManagement.Infrastructure.Repositories
         public async Task<int> UpdateUserProfileAsync(User user)
         {
             var existingUser = await _userDbContext.User.Include(u=> u.UserProfile).FirstOrDefaultAsync(u=>u.UserId == user.UserId);
+            _userDbContext.Update(existingUser);
+            return await _userDbContext.SaveChangesAsync();
 
-            if(existingUser != null)
-            {
-                existingUser.UserName = user.UserName;
-                existingUser.Password = user.Password;
-                existingUser.Email = user.Email;
-                existingUser.UserProfile.FirstName = user.UserProfile.FirstName;
-                existingUser.UserProfile.LastName = user.UserProfile.LastName;
-                existingUser.UserProfile.PersonalNumber = user.UserProfile.PersonalNumber;
-                await _userDbContext.SaveChangesAsync();
-            }
-            return existingUser.UserId;
+            //if(existingUser != null)
+            //{
+            //    existingUser.UserName = user.UserName;
+            //    existingUser.Password = user.Password;
+            //    existingUser.Email = user.Email;
+            //    existingUser.UserProfile.FirstName = user.UserProfile.FirstName;
+            //    existingUser.UserProfile.LastName = user.UserProfile.LastName;
+            //    existingUser.UserProfile.PersonalNumber = user.UserProfile.PersonalNumber;
+            //    await _userDbContext.SaveChangesAsync();
+            //}
+            //return existingUser.UserId;
         }
+
+        //public async Task<int> CreateUser(User user)
+        //{
+        //    await _userDbContext.User.AddAsync(user);
+        //    await _userDbContext.SaveChangesAsync();
+        //    return user.UserId;
+        //}
 
         public async void DeleteUserAsync(int id)
         {
@@ -69,23 +83,17 @@ namespace UserManagement.Infrastructure.Repositories
         }
 
 
-        public async Task<UserProfile> GetUserProfileById(int id)
-        {
-            var user = await _userDbContext.User.Where(x => x.UserId == id).FirstOrDefaultAsync() !=null ? _userDbContext.User.Where(u => u.UserId == id).Select(u => u.UserProfile).FirstOrDefault() : throw new NullReferenceException();
-            return user; 
-        }
+        //public async Task<UserProfile> GetUserProfileById(int id)
+        //{
+        //    var user = await _userDbContext.User.Where(x => x.UserId == id).FirstOrDefaultAsync() !=null ? _userDbContext.User.Where(u => u.UserId == id).Select(u => u.UserProfile).FirstOrDefault() : throw new NullReferenceException();
+        //    return user; 
+        //}
 
-        public async Task<List<UserProfile>> GetUserProfiles()
-        {
-            var userProfiles = await _userDbContext.UserProfile.OrderBy(u => u.UserProfileId).ToListAsync();
-            return userProfiles;
-        }
+        //public async Task<List<UserProfile>> GetUserProfiles()
+        //{
+        //    var userProfiles = await _userDbContext.UserProfile.OrderBy(u => u.UserProfileId).ToListAsync();
+        //    return userProfiles;
+        //}
 
-        public async Task<int> CreateUser(User user)
-        {
-            await _userDbContext.User.AddAsync(user);
-            await _userDbContext.SaveChangesAsync();
-            return user.UserId;
-        }
     }
 }

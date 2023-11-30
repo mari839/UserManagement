@@ -10,14 +10,14 @@ namespace UserManagement.Application.Contracts
     public interface IUserRepository
     {
         Task<User> GetUserById(int id);
+        Task<User> GetUserByIdIncludeUserProfile(int id);
         Task<List<User>> GetAllUsers();
+        Task<List<User>> GetAllUsersIncludeUserProfile();
 
+        //Task<UserProfile> GetUserProfileById(int id);
+        //Task<List<UserProfile>> GetUserProfiles();
 
-        Task<UserProfile> GetUserProfileById(int id);
-        Task<List<UserProfile>> GetUserProfiles();
         Task<int> UpdateUserProfileAsync(User user);
-
-
         Task<User> AddUserAsync(User user);
         void DeleteUserAsync(int id);
         Task<int> CreateUser(User user);

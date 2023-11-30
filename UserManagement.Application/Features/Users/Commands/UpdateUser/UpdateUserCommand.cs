@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserManagement.Domain.Entities;
 
-namespace UserManagement.Application.Features.Users.Commands.CreateUser
+namespace UserManagement.Application.Features.Users.Commands.UpdateUser
 {
-    public class CreateUserCommand : IRequest<CreateUserDto>
+    public class UpdateUserCommand : IRequest<UpdateUserDto>
     {
-        public CreateUserCommand(string userName, string password, string email, string firstName, string lastName, long personalNumber)
+        public UpdateUserCommand(string userName, string password, string email, string firstName, string lastName, long personalNumber)
         {
             UserName = userName;
             Password = password;

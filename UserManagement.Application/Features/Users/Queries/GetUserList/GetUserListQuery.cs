@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Domain.Entities;
 
-namespace UserManagement.Application.Features.Users.Queries.GetUser
+namespace UserManagement.Application.Features.Users.Queries.GetUserList
 {
-    public class GetUserQuery : IRequest<GetUserDto>
+    public class GetUserListQuery : IRequest<List<GetUserListDto>>
     {
-        public int id { get; set; }
     }
 }
