@@ -1,6 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Features.Users.Commands.CreateUser;
+using UserManagement.Application.Features.Users.Commands.DeleteUser;
+using UserManagement.Application.Features.Users.Commands.UpdateUser;
 using UserManagement.Application.Features.Users.Queries.GetUser;
 using UserManagement.Application.Features.Users.Queries.GetUserList;
 using UserManagement.Domain.Entities;
@@ -11,6 +14,7 @@ namespace UserManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -19,6 +23,7 @@ namespace UserManagement.Api.Controllers
             _mediator = mediator;
         }
         // GET: api/<UserController>
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserDto>> GetUser(int id)
         {
@@ -45,22 +50,34 @@ namespace UserManagement.Api.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public async Task<ActionResult<User>> Post(CreateUserCommand createUserCommand)
+        public async Task<ActionResult<User>> CreateUser(CreateUserCommand createUserCommand)
         {
             var res = await _mediator.Send(createUserCommand);
             return Ok(res);
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult<UpdateUserDto>> UpdateUser(UpdateUserCommand updateUserCommand)
         {
+            var res = await _mediator.Send(updateUserCommand);
+            if(res != null)
+            {
+
+            return Ok(res);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void DeleteUser(int id)
         {
+            DeleteUserCommand deleteUserCommand = new DeleteUserCommand() { Id = id };
+            await _mediator.Send(deleteUserCommand);
         }
     }
 }

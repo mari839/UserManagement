@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Application.Contracts;
+using UserManagement.Application.Services.JsonPlaceHolder;
 using UserManagement.Infrastructure.Repositories;
 
 namespace UserManagement.Infrastructure
@@ -18,6 +19,7 @@ namespace UserManagement.Infrastructure
             services.AddDbContext<UserDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("UserManagementConnectionString"), b => b.MigrationsAssembly("UserManagement.Api")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IJsonPlaceholderClient, JsonPlaceholderClient>();
             return services;
         }
     }

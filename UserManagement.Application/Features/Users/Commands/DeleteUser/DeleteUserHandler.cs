@@ -8,14 +8,14 @@ using UserManagement.Application.Contracts;
 
 namespace UserManagement.Application.Features.Users.Commands.DeleteUser
 {
-    public class DeleteBookHandler : IRequestHandler<DeleteBookCommand>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
-        public DeleteBookHandler(IUserRepository userRepository)
+        public DeleteUserHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-        public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserById(request.Id);
             if(user == null)

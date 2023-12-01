@@ -18,6 +18,12 @@ namespace UserManagement.Infrastructure.Repositories
             _userDbContext = userDbContext;
         }
 
+        public async Task<User> GetUserEmail(string email)
+        {
+            var user = await _userDbContext.User.Where(x=>x.Email == email).FirstOrDefaultAsync();
+            return user;
+        }
+
         public async Task<User> GetUserById(int id)
         {
             var user = await _userDbContext.User.Where(x => x.UserId == id).FirstOrDefaultAsync();

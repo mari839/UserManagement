@@ -9,6 +9,7 @@ namespace UserManagement.Application.Contracts
 {
     public interface IUserRepository
     {
+        Task<User> GetUserEmail(string email);
         Task<User> GetUserById(int id);
         Task<User> GetUserByIdIncludeUserProfile(int id);
         Task<List<User>> GetAllUsers();
@@ -20,6 +21,6 @@ namespace UserManagement.Application.Contracts
         Task<int> UpdateUserProfileAsync(User user);
         Task<User> AddUserAsync(User user);
         void DeleteUserAsync(int id);
-        Task<int> CreateUser(User user);
+        //Task<int> CreateUser(User user);
     }
 }
